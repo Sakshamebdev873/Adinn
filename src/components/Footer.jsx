@@ -1,13 +1,53 @@
-import React from "react";
-
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 const Footer = () => {
+  const foot = useRef(null)
+  const foot1 = useRef(null)
+  gsap.registerPlugin(ScrollTrigger);
   const handlesumbit = (e) => {
     e.preventDefault();
   };
+useEffect(()=>{
+gsap.fromTo(foot.current.children,{
+  y:40,opacity:0
+},{
+  opacity:1,
+  y:0,
+  duration:0.5,
+  delay:0.1,
+  ease:'power2.in',
+  stagger:0.2,
+  scrollTrigger:{
+trigger: foot.current,
+// markers:true,
+// scrub:true,
+start: 'top-=250 50%',
+end: 'botom+=50 10%',
+}
+})
+gsap.fromTo(foot1.current.children,{
+  y:40,opacity:0
+},{
+  opacity:1,
+  y:0,
+  duration:0.5,
+  delay:0.1,
+  ease:'power2.in',
+  stagger:0.2,
+  scrollTrigger:{
+trigger: foot.current,
+// markers:true,
+// scrub:true,
+start: 'top-=250 50%',
+end: 'botom+=50 10%',
+}
+})
+},[])
   return (
     <div className="min-h-[80vh] w-full bg-black ">
-      <div className="h-full w-full flex mt-4">
-        <div className="w-[50%] flex flex-col px-4">
+      <div ref={foot} className="h-full w-full flex mt-4">
+        <div ref={foot1} className="w-[50%] flex flex-col px-4">
           <div className="h-[28vh] relative w-full bg-[#121212] mt-8 rounded-2xl">
             <img
               src="/grad.png"
@@ -31,18 +71,18 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col  w-[50%]">
+        <div className="flex flex-col w-[50%]">
           <div className="w-[670px] mt-8 h-[544px] bg-[#121212] rounded-[28px]" >
-         <div className="px-8 w-full h-full " >
-         <form method="post" onSubmit={handlesumbit} className="mt-16" >
+         <div className="px-8 w-full h-full  " >
+         <form method="post" onSubmit={handlesumbit} className="mt-16 boss " >
           <h1 className="text-[#BDBDBD] text-[12px] leading-[16px] uppercase" >Name</h1>
             <input type="text" className="border-b border-[#BDBDBD] w-[590px] h-[45px] " />
             <h1 className="text-[#BDBDBD] text-[12px] leading-[16px]  uppercase mt-4 " >Email</h1>
-            <input type="text" className="border-b border-[#BDBDBD] w-[590px] h-[45px] " />
+            <input type="email" className="border-b border-[#BDBDBD] w-[590px] h-[45px] " />
             <div className="flex gap-4 w-full" >
             <div className="flex mt-4 flex-col" >
             <h1 className="text-[#BDBDBD] text-[12px] leading-[16px] uppercase" >Contact number</h1>
-            <input type="text" className="border-b border-[#BDBDBD] w-[285px] h-[45px] " />
+            <input type="tel" className="border-b border-[#BDBDBD] w-[285px] h-[45px] " />
             </div>
            <div className="flex mt-4 flex-col" >
            <h1 className="text-[#BDBDBD] text-[12px] leading-[16px] uppercase" >Website (optional)</h1>
