@@ -96,9 +96,15 @@ end: 'botom+=50 10%',
            
          </div>
           </div>
-          <div className="w-[335px] h-[80px] flex justify-center mt-8 rounded-2xl items-center bg-[#121212] ">
+          <div className="flex gap-2.5 mt-8 pb-12 ">
+          <div className="w-[335px] h-[80px] flex justify-center rounded-2xl items-center bg-[#121212] ">
               <img src="/x.png" alt="#" />
             </div>
+            <div className="w-[315px] h-[80px] flex justify-center rounded-2xl items-center bg-[#121212] ">
+              <img src="/y.png" alt="#" />
+            </div>
+          </div>
+          
         </div>
       </div>
       <h1 className="text-[15px] leading-[24px] text-center text-[#ffffff] pb-6  " >© designed &  developed by TIC GLOBAL.</h1>
