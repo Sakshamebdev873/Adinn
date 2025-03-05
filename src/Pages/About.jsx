@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from '../components/Footer'
+import { Link, useLocation } from "react-router";
 const About = () => {
   const valuedata = [
     {
@@ -39,6 +40,38 @@ const About = () => {
       image: "/i6.png",
     },
   ];
+  const [isVisible, setIsVisible] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const ScrollToTop = () => {
+    useEffect(() => {
+      window.addEventListener("scroll", toggleVisibility);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("scroll", toggleVisibility);
+      };
+    }, []);
+
+    // Reset visibility on route change
+    useEffect(() => {
+      setIsVisible(false);
+    }, [location]);
+  };
+  const location = useLocation();
+  
   return (
     <>
       <div className="h-full w-full">
@@ -221,10 +254,10 @@ const About = () => {
           </div>
         </div>
         <div className="flex justify-center items-center mt-12 pb-[35vh] " >
-<button type="button" className="w-[158px] h-[44px] rounded-[31px] bg-[#EEEFF3]" >View Projects</button>
+<Link to={'/project'} onClick={ScrollToTop} className="w-[158px] h-[44px] text-center py-2  rounded-[31px] bg-[#EEEFF3]" >View Projects</Link>
         </div>
       </div>
-      <Footer/>
+    
     </>
   );
 };

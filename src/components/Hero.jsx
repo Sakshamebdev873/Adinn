@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Slider from './Slider'
 import Projects from './Projects'
 import FAQs from './FAQs'
+import { Link, useLocation } from "react-router";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "./Footer";
 const Hero = () => {
@@ -87,6 +88,38 @@ const Hero = () => {
       }
     );
   }, []);
+  const [isVisible, setIsVisible] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const ScrollToTop = () => {
+    useEffect(() => {
+      window.addEventListener("scroll", toggleVisibility);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("scroll", toggleVisibility);
+      };
+    }, []);
+
+    // Reset visibility on route change
+    useEffect(() => {
+      setIsVisible(false);
+    }, [location]);
+  };
+  const location = useLocation();
+  
   return (
     <>
       <div className="h-full w-full  ">
@@ -96,26 +129,7 @@ const Hero = () => {
             Adinn
           </h1>
         </div>
-        {/* <div  className="h-dvh relative bg-gradient-to-b pb-16  flex justify-center items-center flex-col from-50% from-[#EC2B45] to-[#790619] mx-2 ">
-          <span ref={maintext} className="font-extrabold inline-block  text-[100px] bg-gradient-to-b uppercase leading-[108px] pt-28  from-[#ffffff] from-50% text-center  to-[#B8312E]  bg-clip-text text-transparent ">
-          Lorem ipsum dolor sit
-          amet consectetur. 
-          </span>
-
-          <img src="/banner.png" ref={imageref} alt="banner" className="-mt-[270px]" />
-
-          <div className="absolute  bottom-8 right-12 ">
-            <img src="/people.png" alt="" ref={imageref2} className="" />
-            <div className="flex mt-2 gap-x-1  ">
-              <h1 className="text-[15px] text-white font-bold leading-[18px] ">
-                1000+
-              </h1>
-              <h1 className="text-[15px] text-[#d8d8d8] font-bold leading-[18px]">
-                clients statisfied
-              </h1>
-            </div>
-          </div>
-        </div> */}
+        {/*  */}
 
         {/* hero 2 section */}
 
@@ -138,12 +152,11 @@ const Hero = () => {
             </div>
           </div>
           <div className="flex items-center justify-center w-full ">
-            <button
-              type="button"
+            <Link onClick={ScrollToTop} to={'/about'}
               className="mt-12 bg-white text-[17px] rounded-2xl  shadow-[0px_1px_33.4px_rgba(241,96,96,0.15)] drop-shadow-xl leading-[20.4px] text-center py-[16px] px-[24px] "
             >
               Discover more about us
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -226,7 +239,7 @@ const Hero = () => {
       <Slider/>
     <Projects/>
     <FAQs/>
-    <Footer/>
+
     </>
   );
 };

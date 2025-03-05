@@ -1,5 +1,5 @@
-import React from "react";
-import Footer from "../components/Footer";
+import React, { useEffect, useState } from "react";
+import {Link, useLocation} from 'react-router'
 const Services = () => {
   const servdata = [
     {
@@ -18,7 +18,38 @@ const Services = () => {
       text: "Point of Sale Advertising",
       para: "Displays and signs in retail locations,  promoting specific products or  promotions. Strategic placement for  enhanced product visibility and  consumer engagement",
     },
-  ];
+  ];const [isVisible, setIsVisible] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const ScrollToTop = () => {
+    useEffect(() => {
+      window.addEventListener("scroll", toggleVisibility);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("scroll", toggleVisibility);
+      };
+    }, []);
+
+    // Reset visibility on route change
+    useEffect(() => {
+      setIsVisible(false);
+    }, [location]);
+  };
+  const location = useLocation();
+  
   return (
     <>
       <div className="w-full max-h-[120vh] overflow-hidden mt-[-100px] ">
@@ -37,18 +68,16 @@ const Services = () => {
             Media Solutions
           </p>
           <div className="flex gap-4 mt-8">
-            <button
-              type="button"
+            <Link to={'/project'}
               className="py-[15px] px-[28px] bg-black text-white rounded-[26px] "
             >
               View Projects
-            </button>
-            <button
-              type="button"
+            </Link>
+            <Link to={'/contactus'}
               className="py-[15px] px-[28px]  bg-transparent text-white rounded-[26px] border border-[#eeeeee] "
             >
               Contact us
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -156,7 +185,7 @@ const Services = () => {
       </div>
       </div>
       <div className="flex justify-center items-center mt-16" >
-        <button type="button" className="py-[10px] px-[20px] bg-[#EEEFF3] rounded-[31px] " >View Projects</button>
+        <Link to={'/project'} onClick={ScrollToTop} className="py-[10px] px-[20px] bg-[#EEEFF3] rounded-[31px] " >View Projects</Link>
       </div>
       <div className="w-full flex justify-center mt-24 pb-20 items-center">
         <div className="w-[1260px] h-[462px] bg-[#EC2B45] relative flex rounded-2xl mt-24 ">
@@ -183,19 +212,19 @@ const Services = () => {
                 </p>
               </div>
              <div className="w-full " >
-             <button
-                type="button"
-                className="cursor-pointer px-[24px] py-[16px] mt-4 w-[212px] h-[52px] bg-white float-right font-semibold rounded-[26px] text-[17px] leading-[21px] "
+             <Link
+                to={'/contactus'} onClick={ScrollToTop}
+                className="cursor-pointer flex justify-center items-center px-[24px] py-[16px] mt-4 w-[212px] h-[52px] bg-white float-right font-semibold rounded-[26px] text-[17px] leading-[21px] "
               >
                 Book a call
-              </button>
+              </Link>
              </div>
             </div>
           </div>
         </div>
       </div>
       </div>
-      <Footer />
+      
     </>
   );
 };

@@ -1,12 +1,44 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GoArrowUpRight } from "react-icons/go";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link, useLocation } from "react-router";
 const Projects = () => {
   gsap.registerPlugin(ScrollTrigger);
   // const img = useRef(null);
   // const part = useRef(null);
   const proj = useRef([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const ScrollToTop = () => {
+    useEffect(() => {
+      window.addEventListener("scroll", toggleVisibility);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("scroll", toggleVisibility);
+      };
+    }, []);
+
+    // Reset visibility on route change
+    useEffect(() => {
+      setIsVisible(false);
+    }, [location]);
+  };
+  const location = useLocation();
   const projectsdata = [
     {
       image: "/p1.png",
@@ -106,19 +138,19 @@ const Projects = () => {
               We do
             </h1>
             <div className="flex gap-4">
-              <button
-                type="button"
+              <Link to={'/about'}
+                onClick={ScrollToTop}
                 className=" py-[7px] px-[18px] bg-[#d62f3d] gap-1  flex justify-center items-center rounded-[25px]"
               >
                 More about us
                 <GoArrowUpRight className="text-2xl" />
-              </button>
-              <button
-                type="button"
+              </Link>
+              <Link to={'/project'}
+                onClick={ScrollToTop}
                 className=" py-[7px] px-[18px] bg-[#EAEAEA] text-black rounded-[25px]"
               >
                 Our Project
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -143,7 +175,7 @@ const Projects = () => {
         <div className="w-full h-full mt-24 ">
           <div className="flex justify-center items-center gap-8 flex-wrap">
             {projectsdata.map((item, index) => {
-              const { image, title, text } = item;
+              const { image, title } = item;
               return (
                 <div
                   className={
@@ -157,9 +189,9 @@ const Projects = () => {
                   />
                   <div className="flex justify-between items-center text-[20px] font-bold leading-[24px] px-4 mt-8">
                     <h1 className="text-black">{title}</h1>
-                    <h1 className="text-[#AFB0B6] flex items-center justify-center gap-2 ">
+                    <Link to={'/project'} onClick={ScrollToTop} className="text-[#AFB0B6] flex items-center justify-center gap-2 ">
                       View Projects <GoArrowUpRight className="text-2xl" />{" "}
-                    </h1>
+                    </Link >
                   </div>
                 </div>
               );
@@ -194,12 +226,12 @@ const Projects = () => {
                 </p>
               </div>
              <div className="w-full " >
-             <button
-                type="button"
-                className="cursor-pointer px-[24px] py-[16px] mt-4 w-[212px] h-[52px] bg-white float-right font-semibold rounded-[26px] text-[17px] leading-[21px] "
+             <Link
+                to={'/contactus'} onClick={ScrollToTop}
+                className="cursor-pointer flex justify-center items-center px-[24px] py-[16px] mt-4 w-[212px] h-[52px] bg-white float-right font-semibold rounded-[26px] text-[17px] leading-[21px] "
               >
                 Book a call
-              </button>
+              </Link>
              </div>
             </div>
           </div>
